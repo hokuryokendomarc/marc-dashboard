@@ -324,9 +324,9 @@ let _toastTimer = null;
 const WRITE_TOKEN = 'marc2025SagaKendo';
 
 // ===== チーム管理 =====
-let teams = JSON.parse(localStorage.getItem('marc_teams_sagagakuen') || '[]');
+let teams = JSON.parse(localStorage.getItem('marc_teams_hokuryo') || '[]');
 
-function saveTeamsLocal(){ localStorage.setItem('marc_teams_sagagakuen', JSON.stringify(teams)); }
+function saveTeamsLocal(){ localStorage.setItem('marc_teams_hokuryo', JSON.stringify(teams)); }
 
 function toggleAgendaInput(el){
   document.getElementById('agenda-custom-input').style.display = el.value === 'custom' ? 'block' : 'none';
@@ -354,14 +354,14 @@ function saveAllTeams(){
     teams[i].theme = theme;
   });
   saveTeamsLocal();
-  localStorage.setItem('marc_teams_saved_sagagakuen', 'true');
+  localStorage.setItem('marc_teams_saved_hokuryo', 'true');
   const agendaType = document.querySelector('input[name="agenda-type"]:checked')?.value;
   const agendaText = agendaType === 'custom' ? (document.getElementById('agenda-text')?.value.trim()||'') : '稽古メニューをつくる';
   const agendaDate  = document.getElementById('meeting-date')?.value  || '';
   const agendaStart = document.getElementById('meeting-start')?.value || '';
   const agendaEnd   = document.getElementById('meeting-end')?.value   || '';
   if(agendaDate){
-    localStorage.setItem('marc_agenda_sagagakuen', JSON.stringify({ text:agendaText, date:agendaDate, start:agendaStart, end:agendaEnd }));
+    localStorage.setItem('marc_agenda_hokuryo', JSON.stringify({ text:agendaText, date:agendaDate, start:agendaStart, end:agendaEnd }));
   }
   const btn = document.getElementById('team-save-btn');
   if(btn){ btn.disabled=true; btn.textContent='⏳ 保存中…'; }
@@ -478,7 +478,7 @@ function loadNewsData(){
         calEl.innerHTML = '<div style="font-size:12px;color:var(--ink-muted);text-align:center;padding:12px 0;">今後30日間の予定はありません</div>';
       }
     }
-    const agenda = data.agenda || JSON.parse(localStorage.getItem('marc_agenda_sagagakuen')||'null');
+    const agenda = data.agenda || JSON.parse(localStorage.getItem('marc_agenda_hokuryo')||'null');
     if(agenda){
       if(agenda.date){ const el=document.getElementById('meeting-date'); if(el) el.value=agenda.date; }
       if(agenda.start){ const el=document.getElementById('meeting-start'); if(el) el.value=agenda.start; }
@@ -492,12 +492,12 @@ function loadNewsData(){
     // 常にGASデータを優先（別アカウント・別デバイス対応）
     if(data.teams !== undefined){
       teams = data.teams || [];
-      localStorage.setItem('marc_teams_sagagakuen', JSON.stringify(teams));
+      localStorage.setItem('marc_teams_hokuryo', JSON.stringify(teams));
     }
     renderTeams();
   }).catch(function(){
     if(calEl) calEl.innerHTML='<div style="font-size:12px;color:var(--ink-muted);text-align:center;padding:12px 0;">予定の読み込みに失敗しました</div>';
-    const agenda = JSON.parse(localStorage.getItem('marc_agenda_sagagakuen')||'null');
+    const agenda = JSON.parse(localStorage.getItem('marc_agenda_hokuryo')||'null');
     if(agenda){
       if(agenda.date){ const el=document.getElementById('meeting-date'); if(el) el.value=agenda.date; }
       if(agenda.start){ const el=document.getElementById('meeting-start'); if(el) el.value=agenda.start; }
